@@ -9,21 +9,37 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: ['name1', 'name2']
+      repos: []
     }
     this.search = this.search.bind(this);
+    this.getRepos = this.getRepos.bind(this);
+  }
+
+  getRepos() {
+    axios.get(`/repos`)
+      .then(result => {
+        this.setState({
+          repos: [...result.data]
+        })
+      })
+      .catch(err => {
+        throw Error('error: ', err);
+      });
   }
 
   search(term) {
-    axios.get(`https://api.github.com/repos/${term}`)
+    axios.post(`/repos`)
       .then(data => {
-        console.log('data: ', data);
+        console.log('data: ', data.data);
       })
       .catch(err => {
         throw Error('error: ', err);
       });
     console.log(`${term} was searched`);
-    // TODO
+  }
+
+  componentDidMount() {
+    this.getRepos();
   }
 
   render() {
