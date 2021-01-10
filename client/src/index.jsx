@@ -19,18 +19,18 @@ class App extends React.Component {
     axios.get(`/repos`)
       .then(result => {
         this.setState({
-          repos: [...result.data]
+          repos: result.data
         })
       })
       .catch(err => {
-        throw Error('error: ', err);
+        console.log('err: ', err.message);
       });
   }
 
   search(term) {
-    axios.post(`/repos`)
-      .then(data => {
-        console.log('data: ', data.data);
+    axios.post(`/repos`, { name: term })
+      .then(result => {
+        console.log('result: ', result.data);
       })
       .catch(err => {
         throw Error('error: ', err);

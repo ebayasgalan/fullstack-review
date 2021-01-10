@@ -10,21 +10,18 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+  const username = req.body.name;
+  console.log('name: ', username);
   try{
-    axios.get('https://api.github.com/users/ebayasgalan/repos')
+    axios.get(`https://api.github.com/users/${username}/repos`)
     .then(response => {
-      let repos = response.data.map(res => {
-        return res.name;
-      });
+      // console.log('response from github: ', response.data);
       const repo = new Repo({
-        username: 'bayasgaladf',
-        repos
+        username,
+        repos: response.data
       });
       repo.save();
-      res.status(200).send(repo);
+      res.status(200).send('saved');
     })
   }catch(err) {
     res.status(400).send(err);
