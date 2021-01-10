@@ -11,7 +11,6 @@ const List = (props) => {
 }
 
 const RepoList = (props) => {
-  let repos = [];
   return (
     <div>
       <h4> Repo List Component </h4>
